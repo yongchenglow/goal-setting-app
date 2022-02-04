@@ -6,6 +6,7 @@
     <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
       <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
     <% end %>
+    <%= f.input :avatar,input_html: { class: "mb-3" }, as: :file %>
     <%= f.input :full_name,
                 required: true,
                 input_html: { autocomplete: "full name" }%>
