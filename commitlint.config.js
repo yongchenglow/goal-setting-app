@@ -23,6 +23,7 @@ module.exports = {
         "Team",
         "Home",
         "Workflow",
+        "Auth",
       ],
     ],
   },
