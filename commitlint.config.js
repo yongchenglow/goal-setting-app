@@ -24,6 +24,7 @@ module.exports = {
         "Home",
         "Workflow",
         "Auth",
+        "Cloudinary",
       ],
     ],
   },
