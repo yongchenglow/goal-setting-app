@@ -1,0 +1,2 @@
+class OrganizationGoalCompleted < ApplicationRecord
+end
