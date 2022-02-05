@@ -1,6 +1,6 @@
 <h1>My Goals</h1>
 <h2>New Goal</h2>
-<%= simple_form_for(@goal) do |f| %>
+<%= simple_form_for(Goal.new) do |f| %>
   <%= f.input :description %>
   <%= f.submit %>
 <% end %>
