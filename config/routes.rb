@@ -2,10 +2,10 @@ Rails.application.routes.draw do
   devise_for :users
   root to: 'pages#home'
 
-  resources :goals do
-    resources :goal_completeds, only: [ :create ]
+  resources :user_goals do
+    resources :user_goal_completeds, only: [ :create ]
   end
-  resources :goal_completeds, only: [ :destroy ]
+  resources :user_goal_completeds, only: [ :destroy ]
 
   resources :organizations do
     resources :teams, only: [ :create, :update ]
