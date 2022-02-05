@@ -1,0 +1,17 @@
+<h1>My Goals</h1>
+<h2>New Goal</h2>
+<%= simple_form_for(@goal) do |f| %>
+  <%= f.input :description %>
+  <%= f.submit %>
+<% end %>
+<h2>All Goals</h2>
+<% @goals.each do |goal| %>
+  <%= simple_form_for(goal) do |f| %>
+    <%= f.input :description %>
+    <%= f.submit %>
+  <% end %>
+  <%= link_to "Delete",
+            goal_path(goal),
+            method: :delete,
+            data: { confirm: "Are you sure?" } %>
+<% end %>

@@ -54,11 +54,13 @@ ActiveRecord::Schema.define(version: 2022_02_04_181444) do
   create_table "goals", force: :cascade do |t|
     t.string "description", null: false
     t.bigint "created_by_id", null: false
+    t.bigint "updated_by_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "completed_id"
     t.index ["completed_id"], name: "index_goals_on_completed_id"
     t.index ["created_by_id"], name: "index_goals_on_created_by_id"
+    t.index ["updated_by_id"], name: "index_goals_on_updated_by_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -85,4 +87,5 @@ ActiveRecord::Schema.define(version: 2022_02_04_181444) do
   add_foreign_key "goal_completeds", "users", column: "completed_by_id"
   add_foreign_key "goals", "goal_completeds", column: "completed_id"
   add_foreign_key "goals", "users", column: "created_by_id"
+  add_foreign_key "goals", "users", column: "updated_by_id"
 end
