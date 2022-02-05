@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_04_181444) do
+ActiveRecord::Schema.define(version: 2022_02_05_091419) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,50 @@ ActiveRecord::Schema.define(version: 2022_02_04_181444) do
     t.index ["updated_by_id"], name: "index_goals_on_updated_by_id"
   end
 
+  create_table "organizations", force: :cascade do |t|
+    t.string "name"
+    t.bigint "created_by_id", null: false
+    t.bigint "updated_by_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["created_by_id"], name: "index_organizations_on_created_by_id"
+    t.index ["name"], name: "index_organizations_on_name", unique: true
+    t.index ["updated_by_id"], name: "index_organizations_on_updated_by_id"
+  end
+
+  create_table "teams", force: :cascade do |t|
+    t.string "name"
+    t.bigint "organization_id", null: false
+    t.bigint "created_by_id", null: false
+    t.bigint "updated_by_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["created_by_id"], name: "index_teams_on_created_by_id"
+    t.index ["name", "organization_id"], name: "index_teams_on_name_and_organization_id", unique: true
+    t.index ["organization_id"], name: "index_teams_on_organization_id"
+    t.index ["updated_by_id"], name: "index_teams_on_updated_by_id"
+  end
+
+  create_table "user_organizations", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "organization_id", null: false
+    t.bigint "created_by_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["created_by_id"], name: "index_user_organizations_on_created_by_id"
+    t.index ["organization_id"], name: "index_user_organizations_on_organization_id"
+    t.index ["user_id"], name: "index_user_organizations_on_user_id"
+  end
+
+  create_table "user_teams", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "team_id", null: false
+    t.bigint "created_by_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["created_by_id"], name: "index_user_teams_on_created_by_id"
+    t.index ["team_id"], name: "index_user_teams_on_team_id"
+    t.index ["user_id"], name: "index_user_teams_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -88,4 +132,15 @@ ActiveRecord::Schema.define(version: 2022_02_04_181444) do
   add_foreign_key "goals", "goal_completeds", column: "completed_id"
   add_foreign_key "goals", "users", column: "created_by_id"
   add_foreign_key "goals", "users", column: "updated_by_id"
+  add_foreign_key "organizations", "users", column: "created_by_id"
+  add_foreign_key "organizations", "users", column: "updated_by_id"
+  add_foreign_key "teams", "organizations"
+  add_foreign_key "teams", "users", column: "created_by_id"
+  add_foreign_key "teams", "users", column: "updated_by_id"
+  add_foreign_key "user_organizations", "organizations"
+  add_foreign_key "user_organizations", "users"
+  add_foreign_key "user_organizations", "users", column: "created_by_id"
+  add_foreign_key "user_teams", "teams"
+  add_foreign_key "user_teams", "users"
+  add_foreign_key "user_teams", "users", column: "created_by_id"
 end
