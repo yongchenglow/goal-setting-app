@@ -7,7 +7,7 @@ class TeamsController < ApplicationController
       @user_teams = current_user.user_teams
       @teams = @teams.reject { |team| @user_teams.any? { |user_team| user_team.team == team } }
     else
-      @teams = null
+      @teams = []
     end
   end
 
