@@ -1,0 +1,28 @@
+<h1><%= @team.name %></h1>
+<h2>Goals</h2>
+<h3>New</h3>
+<%= simple_form_for(@team_goal) do |f| %>
+  <%= f.input :description %>
+  <%= f.input :team_id, as: :hidden %>
+  <%= f.submit %>
+<% end %>
+<% @team.team_goals.each do |team_goal| %>
+  <%= simple_form_for(team_goal) do |f| %>
+    <%= f.input :description %>
+    <%= f.submit %>
+  <% end %>
+  <%= link_to "Delete",
+            team_goal_path(team_goal),
+            method: :delete,
+            data: { confirm: "Are you sure?" } %>
+  <% if team_goal.completed %>
+    <%= link_to "Uncomplete Goal",
+            team_goal_completed_path(team_goal.completed),
+            method: :delete,
+            data: { confirm: "Are you sure?" } %>
+  <% else %>
+    <%= simple_form_for [ team_goal, TeamGoalCompleted.new ] do |f| %>
+      <%= f.submit "Complete Goal", class: "btn btn-primary" , data: { confirm: "Are you sure?" }%>
+    <% end %>
+  <% end %>
+<% end %>

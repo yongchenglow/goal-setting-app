@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   root to: 'pages#home'
 
   resources :organizations, only: [ :index,:create, :update, :destroy ]
-  resources :teams, only: [ :index,:create, :update, :destroy ]
+  resources :teams, only: [ :index, :show, :create, :update, :destroy ]
 
   resources :user_organizations, only: [ :create ]
 

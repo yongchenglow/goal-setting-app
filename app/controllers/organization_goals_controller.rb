@@ -1,10 +1,6 @@
 class OrganizationGoalsController < ApplicationController
   before_action :set_organization_goal, only: %i[update destroy]
 
-  def index
-    @organization_goals = OrganizationGoal.all
-  end
-
   def create
     @organization_goal = OrganizationGoal.new(organization_goal_params)
     @organization_goal.created_by_id = current_user.id
