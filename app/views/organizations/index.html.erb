@@ -1,0 +1,27 @@
+<h1>My Organization</h1>
+<% if current_user.user_organization %>
+  <%= current_user.user_organization.organization.name %>
+  <h2>Teams</h2>
+  <%= simple_form_for(Team.new) do |f| %>
+    <%= f.input :name %>
+    <%= f.submit %>
+  <% end %>
+  <% current_user.user_organization.organization.teams.each do |team| %>
+    <%= simple_form_for(team) do |f| %>
+      <%= f.input :name %>
+      <%= f.submit %>
+    <% end %>
+    <%= link_to "Delete",
+            team_path(team),
+            method: :delete,
+            data: { confirm: "Are you sure?" } %>
+  <% end %>
+<% else %>
+  <%= simple_form_for(Organization.new) do |f| %>
+    <%= f.input :name %>
+    <%= f.submit %>
+  <% end %>
+  <% @organizations.each do |organization| %>
+    <%= organization.name %>
+  <% end %>
+<% end %>

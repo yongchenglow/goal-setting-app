@@ -6,4 +6,6 @@ class User < ApplicationRecord
 
   has_one_attached :avatar
   has_many :goals
+  has_one :user_organization
+  has_many :user_teams
 end
