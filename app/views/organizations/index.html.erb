@@ -16,6 +16,32 @@
             method: :delete,
             data: { confirm: "Are you sure?" } %>
   <% end %>
+  <h1>Organization Goals</h1>
+  <h2>New Organization Goal</h2>
+  <%= simple_form_for(OrganizationGoal.new) do |f| %>
+    <%= f.input :description %>
+    <%= f.submit %>
+  <% end %>
+  <% current_user.user_organization.organization.organization_goals.each do |organization_goal| %>
+    <%= simple_form_for(organization_goal) do |f| %>
+      <%= f.input :description %>
+      <%= f.submit %>
+    <% end %>
+    <%= link_to "Delete",
+            organization_goal_path(organization_goal),
+            method: :delete,
+            data: { confirm: "Are you sure?" } %>
+    <% if organization_goal.completed %>
+      <%= link_to "Uncomplete Goal",
+            organization_goal_completed_path(organization_goal.completed),
+            method: :delete,
+            data: { confirm: "Are you sure?" } %>
+    <% else %>
+      <%= simple_form_for [ organization_goal, OrganizationGoalCompleted.new ] do |f| %>
+        <%= f.submit "Complete Goal", class: "btn btn-primary" , data: { confirm: "Are you sure?" }%>
+      <% end %>
+    <% end %>
+  <% end %>
 <% else %>
   <%= simple_form_for(Organization.new) do |f| %>
     <%= f.input :name %>

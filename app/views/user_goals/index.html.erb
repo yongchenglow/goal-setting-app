@@ -1,27 +1,27 @@
 <h1>My Goals</h1>
 <h2>New Goal</h2>
-<%= simple_form_for(Goal.new) do |f| %>
+<%= simple_form_for(UserGoal.new) do |f| %>
   <%= f.input :description %>
   <%= f.submit %>
 <% end %>
 <h2>All Goals</h2>
-<% @goals.each do |goal| %>
-  <%= simple_form_for(goal) do |f| %>
+<% @user_goals.each do |user_goal| %>
+  <%= simple_form_for(user_goal) do |f| %>
     <%= f.input :description %>
     <%= f.submit %>
   <% end %>
   <%= link_to "Delete",
-            goal_path(goal),
+            user_goal_path(user_goal),
             method: :delete,
             data: { confirm: "Are you sure?" } %>
-  <% if goal.completed %>
+  <% if user_goal.completed %>
     <%= link_to "Uncomplete Goal",
-            goal_completed_path(goal.completed),
+            user_goal_completed_path(user_goal.completed),
             method: :delete,
             data: { confirm: "Are you sure?" } %>
   <% else %>
-    <%= simple_form_for [ goal, GoalCompleted.new ] do |f| %>
-      <%= f.submit "Complete Goal", class: "btn btn-primary" %>
+    <%= simple_form_for [ user_goal, UserGoalCompleted.new ] do |f| %>
+      <%= f.submit "Complete Goal", class: "btn btn-primary" , data: { confirm: "Are you sure?" }%>
     <% end %>
   <% end %>
 <% end %>

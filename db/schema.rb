@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_05_091419) do
+ActiveRecord::Schema.define(version: 2022_02_05_183957) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,28 +43,30 @@ ActiveRecord::Schema.define(version: 2022_02_05_091419) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "goal_completeds", force: :cascade do |t|
-    t.bigint "goal_id", null: false
+  create_table "organization_goal_completeds", force: :cascade do |t|
+    t.bigint "organization_goal_id", null: false
     t.bigint "completed_by_id", null: false
     t.datetime "created_at", null: false
-    t.index ["completed_by_id"], name: "index_goal_completeds_on_completed_by_id"
-    t.index ["goal_id"], name: "index_goal_completeds_on_goal_id"
+    t.index ["completed_by_id"], name: "index_organization_goal_completeds_on_completed_by_id"
+    t.index ["organization_goal_id"], name: "index_organization_goal_completeds_on_organization_goal_id"
   end
 
-  create_table "goals", force: :cascade do |t|
+  create_table "organization_goals", force: :cascade do |t|
     t.string "description", null: false
     t.bigint "created_by_id", null: false
     t.bigint "updated_by_id", null: false
+    t.bigint "organization_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "completed_id"
-    t.index ["completed_id"], name: "index_goals_on_completed_id"
-    t.index ["created_by_id"], name: "index_goals_on_created_by_id"
-    t.index ["updated_by_id"], name: "index_goals_on_updated_by_id"
+    t.index ["completed_id"], name: "index_organization_goals_on_completed_id"
+    t.index ["created_by_id"], name: "index_organization_goals_on_created_by_id"
+    t.index ["organization_id"], name: "index_organization_goals_on_organization_id"
+    t.index ["updated_by_id"], name: "index_organization_goals_on_updated_by_id"
   end
 
   create_table "organizations", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.bigint "created_by_id", null: false
     t.bigint "updated_by_id", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -74,8 +76,30 @@ ActiveRecord::Schema.define(version: 2022_02_05_091419) do
     t.index ["updated_by_id"], name: "index_organizations_on_updated_by_id"
   end
 
+  create_table "team_goal_completeds", force: :cascade do |t|
+    t.bigint "team_goal_id", null: false
+    t.bigint "completed_by_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["completed_by_id"], name: "index_team_goal_completeds_on_completed_by_id"
+    t.index ["team_goal_id"], name: "index_team_goal_completeds_on_team_goal_id"
+  end
+
+  create_table "team_goals", force: :cascade do |t|
+    t.string "description", null: false
+    t.bigint "created_by_id", null: false
+    t.bigint "updated_by_id", null: false
+    t.bigint "team_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "completed_id"
+    t.index ["completed_id"], name: "index_team_goals_on_completed_id"
+    t.index ["created_by_id"], name: "index_team_goals_on_created_by_id"
+    t.index ["team_id"], name: "index_team_goals_on_team_id"
+    t.index ["updated_by_id"], name: "index_team_goals_on_updated_by_id"
+  end
+
   create_table "teams", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.bigint "organization_id", null: false
     t.bigint "created_by_id", null: false
     t.bigint "updated_by_id", null: false
@@ -85,6 +109,26 @@ ActiveRecord::Schema.define(version: 2022_02_05_091419) do
     t.index ["name", "organization_id"], name: "index_teams_on_name_and_organization_id", unique: true
     t.index ["organization_id"], name: "index_teams_on_organization_id"
     t.index ["updated_by_id"], name: "index_teams_on_updated_by_id"
+  end
+
+  create_table "user_goal_completeds", force: :cascade do |t|
+    t.bigint "user_goal_id", null: false
+    t.bigint "completed_by_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["completed_by_id"], name: "index_user_goal_completeds_on_completed_by_id"
+    t.index ["user_goal_id"], name: "index_user_goal_completeds_on_user_goal_id"
+  end
+
+  create_table "user_goals", force: :cascade do |t|
+    t.string "description", null: false
+    t.bigint "created_by_id", null: false
+    t.bigint "updated_by_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "completed_id"
+    t.index ["completed_id"], name: "index_user_goals_on_completed_id"
+    t.index ["created_by_id"], name: "index_user_goals_on_created_by_id"
+    t.index ["updated_by_id"], name: "index_user_goals_on_updated_by_id"
   end
 
   create_table "user_organizations", force: :cascade do |t|
@@ -127,16 +171,28 @@ ActiveRecord::Schema.define(version: 2022_02_05_091419) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "goal_completeds", "goals"
-  add_foreign_key "goal_completeds", "users", column: "completed_by_id"
-  add_foreign_key "goals", "goal_completeds", column: "completed_id"
-  add_foreign_key "goals", "users", column: "created_by_id"
-  add_foreign_key "goals", "users", column: "updated_by_id"
+  add_foreign_key "organization_goal_completeds", "organization_goals"
+  add_foreign_key "organization_goal_completeds", "users", column: "completed_by_id"
+  add_foreign_key "organization_goals", "organization_goal_completeds", column: "completed_id"
+  add_foreign_key "organization_goals", "organizations"
+  add_foreign_key "organization_goals", "users", column: "created_by_id"
+  add_foreign_key "organization_goals", "users", column: "updated_by_id"
   add_foreign_key "organizations", "users", column: "created_by_id"
   add_foreign_key "organizations", "users", column: "updated_by_id"
+  add_foreign_key "team_goal_completeds", "team_goals"
+  add_foreign_key "team_goal_completeds", "users", column: "completed_by_id"
+  add_foreign_key "team_goals", "team_goal_completeds", column: "completed_id"
+  add_foreign_key "team_goals", "teams"
+  add_foreign_key "team_goals", "users", column: "created_by_id"
+  add_foreign_key "team_goals", "users", column: "updated_by_id"
   add_foreign_key "teams", "organizations"
   add_foreign_key "teams", "users", column: "created_by_id"
   add_foreign_key "teams", "users", column: "updated_by_id"
+  add_foreign_key "user_goal_completeds", "user_goals"
+  add_foreign_key "user_goal_completeds", "users", column: "completed_by_id"
+  add_foreign_key "user_goals", "user_goal_completeds", column: "completed_id"
+  add_foreign_key "user_goals", "users", column: "created_by_id"
+  add_foreign_key "user_goals", "users", column: "updated_by_id"
   add_foreign_key "user_organizations", "organizations"
   add_foreign_key "user_organizations", "users"
   add_foreign_key "user_organizations", "users", column: "created_by_id"

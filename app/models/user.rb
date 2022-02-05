@@ -5,7 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   has_one_attached :avatar
-  has_many :goals
   has_one :user_organization
   has_many :user_teams
+  has_many :user_goals
 end
