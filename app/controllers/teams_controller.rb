@@ -2,7 +2,13 @@ class TeamsController < ApplicationController
   before_action :set_team, only: %i[update destroy]
 
   def index
-    @teams = Team.all
+    if current_user.user_organization
+      @teams = current_user.user_organization.organization.teams
+      @user_teams = current_user.user_teams
+      @teams = @teams.reject { |team| @user_teams.any? { |user_team| user_team.team == team } }
+    else
+      @teams = null
+    end
   end
 
   def create

@@ -9,14 +9,12 @@ Rails.application.routes.draw do
 
   resources :organizations do
     resources :teams, only: [ :create, :update ]
-    resources :user_organizations, only: [ :create ]
   end
-  resources :teams, only: [ :destroy ]
+  resources :teams, only: [ :index, :destroy ]
 
-  resources :teams, only: [ :create, :update ] do
-    resources :user_teams, only: [ :create ]
-  end
-  resources :user_teams, only: [ :destroy ]
+  resources :user_organizations, only: [ :create ]
+
+  resources :user_teams, only: [ :create, :destroy ]
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
