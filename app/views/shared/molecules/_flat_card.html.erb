@@ -1,0 +1,30 @@
+<div class="flat-card">
+  <div class="flat-card-img">
+    <div id="carouselExampleIndicators<%= flat.id%>" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        <% flat.photos.each_with_index do |photo, index| %>
+          <button type="button" data-bs-target="#carouselExampleIndicators<%= flat.id %>" data-bs-slide-to="<%= index %>" class="<%= 'active' if index == 0 %>"></button>
+        <% end%>
+      </div>
+      <div class="carousel-inner">
+        <% flat.photos.each_with_index do |photo, index| %>
+          <div class="carousel-item <%= 'active' if index === 0 %>" data-bs-interval="false">
+            <%= cl_image_tag photo.key, height: 300, width: 400, crop: :fill %>
+          </div>
+        <% end%>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators<%= flat.id%>" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators<%= flat.id%>" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+  <div class="flat-card-info">
+    <div><%= flat.title %></div>
+    <div><%= flat.price %></div>
+  </div>
+</div>
