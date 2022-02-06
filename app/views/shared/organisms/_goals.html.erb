@@ -1,0 +1,25 @@
+<h1 class="text-center mt-3"><%= title %></h1>
+<h5>Progress</h5>
+<div class="progress my-3">
+  <div class="progress-bar bg-success" role="progressbar" style="width: <%= completed_goals_num * 100/ total_goals_num %>%" aria-valuenow="<%= completed_goals_num * 100/ total_goals_num %>" aria-valuemin="0" aria-valuemax="100"><%= (completed_goals_num * 100/ total_goals_num).round() %>%</div>
+</div>
+<button type="button" class="btn btn-gradient float-end" data-bs-toggle="modal" data-bs-target="#createGoal">
+  <i class="fas fa-plus"></i>&nbsp;&nbsp;Goal
+</button>
+<%= render "shared/molecules/form_goal_modal", name: "createGoal" ,title: "Add Goal", goal: goal_model, team_id: team_id %>
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item custom" role="presentation">
+    <button class="nav-link custom active" id="in-progress-tab" data-bs-toggle="tab" data-bs-target="#in-progress" type="button" role="tab" aria-controls="in-progress" aria-selected="true">In Progress</button>
+  </li>
+  <li class="nav-item custom" role="presentation">
+    <button class="nav-link custom" id="complete-tab" data-bs-toggle="tab" data-bs-target="#completed" type="button" role="tab" aria-controls="completed" aria-selected="false">Completed</button>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="in-progress" role="tabpanel" aria-labelledby="home-tab">
+    <%= render "shared/molecules/goal_list", goals: in_progress_goals, goal_completed_model: goal_completed_model, team_id: team_id %>
+  </div>
+  <div class="tab-pane fade" id="completed" role="tabpanel" aria-labelledby="completd-tab">
+    <%= render "shared/molecules/goal_list", goals: completed_goals, goal_completed_model: goal_completed_model, team_id: team_id %>
+  </div>
+</div>

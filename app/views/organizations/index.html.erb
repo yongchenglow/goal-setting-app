@@ -1,48 +1,10 @@
-<h1>My Organization</h1>
 <% if current_user.user_organization %>
-  <%= current_user.user_organization.organization.name %>
-  <h2>Teams</h2>
-  <%= simple_form_for(Team.new) do |f| %>
-    <%= f.input :name %>
-    <%= f.submit %>
-  <% end %>
-  <% current_user.user_organization.organization.teams.each do |team| %>
-    <%= simple_form_for(team) do |f| %>
-      <%= f.input :name %>
-      <%= f.submit %>
-    <% end %>
-    <%= link_to "Delete",
-            team_path(team),
-            method: :delete,
-            data: { confirm: "Are you sure?" } %>
-  <% end %>
-  <h1>Organization Goals</h1>
-  <h2>New Organization Goal</h2>
-  <%= simple_form_for(OrganizationGoal.new) do |f| %>
-    <%= f.input :description %>
-    <%= f.submit %>
-  <% end %>
-  <% current_user.user_organization.organization.organization_goals.each do |organization_goal| %>
-    <%= simple_form_for(organization_goal) do |f| %>
-      <%= f.input :description %>
-      <%= f.submit %>
-    <% end %>
-    <%= link_to "Delete",
-            organization_goal_path(organization_goal),
-            method: :delete,
-            data: { confirm: "Are you sure?" } %>
-    <% if organization_goal.completed %>
-      <%= link_to "Uncomplete Goal",
-            organization_goal_completed_path(organization_goal.completed),
-            method: :delete,
-            data: { confirm: "Are you sure?" } %>
-    <% else %>
-      <%= simple_form_for [ organization_goal, OrganizationGoalCompleted.new ] do |f| %>
-        <%= f.submit "Complete Goal", class: "btn btn-primary" , data: { confirm: "Are you sure?" }%>
-      <% end %>
-    <% end %>
-  <% end %>
+  <%= render "shared/organisms/goals", title: "#{current_user.user_organization.organization.name} Goals", completed_goals_num: @organization_goals_completed.length, total_goals_num:  @organization_goals.length, completed_goals: @organization_goals_completed, in_progress_goals: @organization_goals_in_progress , goal_model: OrganizationGoal.new, goal_completed_model: OrganizationGoalCompleted.new, team_id: nil %>
+  <h2 class="text-center mt-5">Statistics</h2>
+  <div class="text-center">Number of Teams: <%= current_user.user_organization.organization.teams.length %></div>
+  <div class="text-center">Number of People: <%= current_user.user_organization.organization.user_organizations.length %></div>
 <% else %>
+  <h1 class="text-center mt-3">Join an Organization</h1>
   <%= simple_form_for(Organization.new) do |f| %>
     <%= f.input :name %>
     <%= f.submit %>

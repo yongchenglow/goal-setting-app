@@ -13,6 +13,9 @@ class TeamsController < ApplicationController
 
   def show
     @team_goal = TeamGoal.new(team_id: @team.id)
+    @team_goals = TeamGoal.where("team_id = #{@team.id}").order(created_at: :desc)
+    @team_goals_completed = @team_goals.filter { |team_goal| team_goal.completed.present? }
+    @team_goals_in_progress = @team_goals.reject { |team_goal| team_goal.completed.present? }
   end
 
   def create
@@ -23,19 +26,19 @@ class TeamsController < ApplicationController
       @team.save
     end
 
-    redirect_to organizations_path
+    redirect_to teams_path
   end
 
   def update
     @team.update(team_params)
 
-    redirect_to organizations_path
+    redirect_to teams_path
   end
 
   def destroy
     @team.destroy
 
-    redirect_to organizations_path
+    redirect_to teams_path
   end
 
   private

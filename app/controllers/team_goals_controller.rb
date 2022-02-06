@@ -2,6 +2,7 @@ class TeamGoalsController < ApplicationController
   before_action :set_team_goal, only: %i[update destroy]
 
   def create
+    p team_goal_params
     @team_goal = TeamGoal.new(team_goal_params)
     @team_goal.created_by_id = current_user.id
     @team_goal.save

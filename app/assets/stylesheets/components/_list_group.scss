@@ -1,0 +1,10 @@
+.list-group.custom {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-left-radius: 7px;
+  border-bottom-right-radius: 7px;
+}
+
+.list-group.custom > .list-group-item {
+  border-top: 0px;
+}
