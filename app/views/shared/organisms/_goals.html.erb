@@ -1,7 +1,7 @@
 <h1 class="text-center mt-3"><%= title %></h1>
 <h5>Progress</h5>
 <div class="progress my-3">
-  <div class="progress-bar bg-success" role="progressbar" style="width: <%= completed_goals_num * 100/ total_goals_num %>%" aria-valuenow="<%= completed_goals_num * 100/ total_goals_num %>" aria-valuemin="0" aria-valuemax="100"><%= (completed_goals_num * 100/ total_goals_num).round() %>%</div>
+  <div class="progress-bar bg-success" role="progressbar" style="width: <%= completed_goals_num * 100/ (total_goals_num > 0? total_goals_num: 1)  %>%" aria-valuenow="<%= completed_goals_num * 100/ (total_goals_num > 0? total_goals_num: 1) %>" aria-valuemin="0" aria-valuemax="100"><%= (completed_goals_num * 100/ (total_goals_num > 0? total_goals_num: 1)).round() %>%</div>
 </div>
 <button type="button" class="btn btn-gradient float-end" data-bs-toggle="modal" data-bs-target="#createGoal">
   <i class="fas fa-plus"></i>&nbsp;&nbsp;Goal
