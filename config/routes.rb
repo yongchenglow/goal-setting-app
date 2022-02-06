@@ -6,7 +6,16 @@ Rails.application.routes.draw do
     sessions: "users/sessions",
     unlocks: "users/unlocks" }
 
-  root to: 'pages#home'
+  devise_scope :user do
+    authenticated :user do
+      root to: 'user_goals#index', as: :authenticated_root
+    end
+
+    unauthenticated do
+      root to: 'pages#home'
+    end
+  end
+
 
   resources :organizations, only: [ :index,:create, :update, :destroy ]
   resources :teams, only: [ :index, :show, :create, :update, :destroy ]

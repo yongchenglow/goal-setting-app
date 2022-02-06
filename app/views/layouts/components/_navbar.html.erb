@@ -8,9 +8,15 @@
       </div>
       <div class="collapse navbar-collapse flex-grow-0">
         <ul class="navbar-nav mb-2 mb-lg-0">
-          <li class="nav-item <%= active_class(root_path) %>">
-            <%= link_to "Home", root_path, class: "nav-link" %>
-          </li>
+          <% if user_signed_in? %>
+            <li class="nav-item <%= active_class(user_goals_path) || active_class(root_path) %>">
+              <%= link_to "Home", user_goals_path, class: "nav-link" %>
+            </li>
+          <% else %>
+            <li class="nav-item <%= active_class(root_path) %>">
+              <%= link_to "Home", root_path, class: "nav-link" %>
+            </li>
+          <% end %>
           <li class="nav-item <%= active_class(organizations_path) %>">
             <%= link_to "Organization", organizations_path, class: "nav-link" %>
           </li>
