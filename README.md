@@ -1,6 +1,9 @@
 # Strive
 
-[Visit my AirBNB Clone](https://airbnb-yongchenglow.herokuapp.com)
+[Visit Strive](https://strive-yc.herokuapp.com/)
+Login
+john.smith@hotmail.com
+password
 
 ### Story Mapping
 
