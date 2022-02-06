@@ -1,0 +1,17 @@
+li.nav-item.custom {
+  margin: 0;
+}
+
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link.custom {
+  background: white;
+  border-bottom-color: white;
+}
+
+.nav-link.active.custom {
+  color: #167ffb;
+}
+
+.nav-link.custom {
+  color: #495057;
+}

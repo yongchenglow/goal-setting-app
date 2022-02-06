@@ -1,0 +1,31 @@
+<ul class="list-group custom">
+  <% goals.each do |goal| %>
+    <li class="list-group-item d-flex align-content-center">
+      <% if goal.completed %>
+        <%= link_to "<i class='fas fa-undo-alt'></i>".html_safe,
+                        (defined?(goal.organization) ?
+              organization_goal_completed_path(goal.completed) : (defined?(goal.team) ? team_goal_completed_path(goal.completed) : user_goal_completed_path(goal.completed))),
+             style:'height: 38px;', class: "btn btn-outline-secondary mx-1 align-self-center",
+            method: :delete,
+            data: { confirm: "Please confirm you want to move this goal back into in progress: #{goal.description}" } %>
+      <% else %>
+        <%= simple_form_for [ goal, goal_completed_model ] , html: { class: "align-self-center"} do |f| %>
+          <%= button_tag :submit, style: "height: 38px;", class: "btn btn-outline-success text-white " , data: { confirm: "Please confirm you want to complete this goal: #{goal.description}" } do %> <i class='fas fa-check'></i> <% end %>
+        <% end %>
+      <% end %>
+      <span class="flex-grow-1 mx-3 align-self-center">
+        <%= goal.description %>
+      </span>
+      <% unless goal.completed %>
+        <button type="button" class="btn btn-outline-warning mx-1 align-self-center" style="height: 38px;" data-bs-toggle="modal" data-bs-target="#editGoal<%= goal.id %>"><i class="far fa-edit"></i></button>
+        <%= render "shared/molecules/form_goal_modal", name: "editGoal#{goal.id}", title: "Edit Goal", goal: goal, team_id: team_id %>
+        <%= link_to "<i class='fas fa-trash'></i>".html_safe,
+            (defined?(goal.organization) ?
+              organization_goal_path(goal) : (defined?(goal.team) ? team_goal_path(goal) : user_goal_path(goal))),
+            style:'height: 38px;', class: "btn btn-outline-danger mx-1 align-self-center",
+            method: :delete,
+            data: { confirm: "Please confirm you want to delete: #{goal.description}" } %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

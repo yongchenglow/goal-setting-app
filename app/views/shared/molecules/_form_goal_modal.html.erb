@@ -1,0 +1,23 @@
+<div class="modal fade" id="<%= name %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><%= title %></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <%= simple_form_for(goal) do |f| %>
+          <%= f.input :description,
+                label: "Goal",
+                as: :text,
+                required: true,
+                input_html: { placeholder: 'I want to obtain a gym membership at my local community center and work out four days a week to be healthier.' } %>
+          <% if team_id %>
+            <%= f.input :team_id, as: :hidden, input_html: {value: team_id } %>
+          <% end %>
+          <%= f.button :submit, "Confirm", class: "btn-gradient float-end" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

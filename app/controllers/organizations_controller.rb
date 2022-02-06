@@ -1,6 +1,19 @@
 class OrganizationsController < ApplicationController
   def index
     @organizations = Organization.all
+    if current_user.user_organization
+      @organization_goals = OrganizationGoal
+                            .where("organization_id = #{current_user.user_organization.organization.id}")
+                            .order(created_at: :desc)
+      @organization_goals_completed = @organization_goals
+                                      .filter { |organization_goal| organization_goal.completed.present? }
+      @organization_goals_in_progress = @organization_goals
+                                        .reject { |organization_goal| organization_goal.completed.present? }
+    else
+      @organization_goals = []
+      @organization_goals_completed = []
+      @organization_goals_in_progress = []
+    end
   end
 
   def create
